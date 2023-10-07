@@ -9,21 +9,20 @@ class HyperbolicTangent:
     @staticmethod
     def _exp(x: list, epsilon: float):
         shape = Matrix.shape(x)
-        identity_matrix = Matrix.identity_matrix(shape[0], shape[1])
-        factorial_multiplier = identity_matrix
+        matrix_of_ones = Matrix.ones(shape[0], shape[1])
 
-        accumulated_x_power = x
-        accumulated_factorial = identity_matrix
-        result = identity_matrix
+        factorial_multiplier = matrix_of_ones
+        term_factor = Matrix.pointrwise_division(x, factorial_multiplier)
+        term = matrix_of_ones
+        maclaurin_row = term
 
-        while Matrix.is_all_elements_greater_than_or_equals(
-                Matrix.pointrwise_division(accumulated_x_power, accumulated_factorial), epsilon):
-            result = Matrix.adding(result, Matrix.pointrwise_division(accumulated_x_power, accumulated_factorial))
-            accumulated_x_power = Matrix.pointwise_multiplication(accumulated_x_power, x)
-            factorial_multiplier = Matrix.adding(factorial_multiplier, identity_matrix)
-            accumulated_factorial = Matrix.pointwise_multiplication(accumulated_factorial, factorial_multiplier)
+        while Matrix.is_all_elements_greater_than_or_equals(term, epsilon):
+            term = Matrix.pointwise_multiplication(term, term_factor)
+            maclaurin_row = Matrix.adding(maclaurin_row, term)
+            factorial_multiplier = Matrix.adding(factorial_multiplier, matrix_of_ones)
+            term_factor = Matrix.pointrwise_division(x, factorial_multiplier)
 
-        return result
+        return maclaurin_row
 
     @staticmethod
     def tanh(x, epsilon: float):
@@ -34,10 +33,10 @@ class HyperbolicTangent:
 
         x = Matrix.convert_to_matrix(x)
         shape = Matrix.shape(x)
-        identity_matrix = Matrix.identity_matrix(shape[0], shape[1])
+        matrix_of_ones = Matrix.ones(shape[0], shape[1])
 
         exp_x = HyperbolicTangent._exp(x, epsilon)
-        reciprocal_exp_x = Matrix.pointrwise_division(identity_matrix, exp_x)
+        reciprocal_exp_x = Matrix.pointrwise_division(matrix_of_ones, exp_x)
         result = Matrix.pointrwise_division(Matrix.subtraction(exp_x, reciprocal_exp_x),
                                             Matrix.adding(exp_x, reciprocal_exp_x))
         result = Matrix.try_to_convert_from_matrix(result)
@@ -52,7 +51,7 @@ class HyperbolicTangent:
 
         x = Matrix.convert_to_matrix(x)
         shape = Matrix.shape(x)
-        identity_matrix = Matrix.identity_matrix(shape[0], shape[1])
+        identity_matrix = Matrix.ones(shape[0], shape[1])
 
         tanh_x = HyperbolicTangent.tanh(x, epsilon)
         result = Matrix.subtraction(identity_matrix, Matrix.pointwise_multiplication(tanh_x, tanh_x))
@@ -67,7 +66,7 @@ class HyperbolicTangent:
         if x_width != w_height:
             raise ValueError("Width of X matrix doesn't equal height of W matrix!")
 
-        xw = Matrix.single_process_multiplication(x, HyperbolicTangent._w)
+        xw = Matrix.multiplication(x, HyperbolicTangent._w)
         xw_plus_b = Matrix.add_vector_to_matrix(xw, HyperbolicTangent._b)
         result = HyperbolicTangent.tanh(xw_plus_b, 10 ** -8)
         result = Matrix.try_to_convert_from_matrix(result)
