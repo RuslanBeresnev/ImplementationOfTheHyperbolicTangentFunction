@@ -51,15 +51,16 @@ class HyperbolicTangent:
 
         x = Matrix.convert_to_matrix(x)
         shape = Matrix.shape(x)
-        identity_matrix = Matrix.ones(shape[0], shape[1])
+        matrix_of_ones = Matrix.ones(shape[0], shape[1])
 
         tanh_x = HyperbolicTangent.tanh(x, epsilon)
-        result = Matrix.subtraction(identity_matrix, Matrix.pointwise_multiplication(tanh_x, tanh_x))
+        tanh_x = Matrix.convert_to_matrix(tanh_x)
+        result = Matrix.subtraction(matrix_of_ones, Matrix.pointwise_multiplication(tanh_x, tanh_x))
         result = Matrix.try_to_convert_from_matrix(result)
         return result
 
     @staticmethod
-    def f(x: list):
+    def f(x: list, epsilon: float):
         x = Matrix.convert_to_matrix(x)
         x_width = Matrix.shape(x)[1]
         w_height = Matrix.shape(HyperbolicTangent._w)[0]
@@ -68,6 +69,6 @@ class HyperbolicTangent:
 
         xw = Matrix.multiplication(x, HyperbolicTangent._w)
         xw_plus_b = Matrix.add_vector_to_matrix(xw, HyperbolicTangent._b)
-        result = HyperbolicTangent.tanh(xw_plus_b, 10 ** -8)
+        result = HyperbolicTangent.tanh(xw_plus_b, epsilon)
         result = Matrix.try_to_convert_from_matrix(result)
         return result
