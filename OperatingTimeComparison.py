@@ -1,5 +1,5 @@
 import numpy as np
-import Implementation.HyperbolicTangent as ht
+import HyperbolicTangent as ht
 import random
 import time
 

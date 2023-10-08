@@ -3,7 +3,7 @@ from ddt import ddt, data, idata
 import random
 import math
 import numpy as np
-import Implementation.HyperbolicTangent as ht
+import HyperbolicTangent as ht
 
 
 @ddt

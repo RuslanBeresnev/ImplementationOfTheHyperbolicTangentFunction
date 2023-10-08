@@ -1,4 +1,4 @@
-from Implementation.Matrix import Matrix
+from Matrix import Matrix
 
 
 class HyperbolicTangent:
