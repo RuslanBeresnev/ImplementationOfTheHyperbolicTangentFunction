@@ -1,13 +1,19 @@
-from Matrix import Matrix
+from Implementation.Matrix import Matrix
 
 
 class HyperbolicTangent:
+    """
+    Implementation of the hyperbolic tangent function, it's differential and special f(X) function
+    """
     # This matrix and vector are given to us
     _w = [[(i + 1) * (j + 1) for j in range(10)] for i in range(10)]
     _b = [i for i in range(10)]
 
     @staticmethod
     def _exp(x: list, epsilon: float):
+        """
+        Implementation of the exponent function
+        """
         shape = Matrix.shape(x)
         matrix_of_ones = Matrix.ones(shape[0], shape[1])
 
@@ -26,6 +32,9 @@ class HyperbolicTangent:
 
     @staticmethod
     def tanh(x, epsilon: float):
+        """
+        Implementation of the hyperbolic tangent function
+        """
         if epsilon == 0:
             raise ValueError("Epsilon can't take the value zero!")
         if x == [] or x == [[]]:
@@ -44,6 +53,9 @@ class HyperbolicTangent:
 
     @staticmethod
     def tanh_diff(x, epsilon: float):
+        """
+        Implementation of the differential of hyperbolic tangent function
+        """
         if epsilon == 0:
             raise ValueError("Epsilon can't take the value zero!")
         if x == [] or x == [[]]:
@@ -61,6 +73,9 @@ class HyperbolicTangent:
 
     @staticmethod
     def f(x: list, epsilon: float):
+        """
+        Implementation of the special f(X) function
+        """
         x = Matrix.convert_to_matrix(x)
         x_width = Matrix.shape(x)[1]
         w_height = Matrix.shape(HyperbolicTangent._w)[0]

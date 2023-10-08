@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0913fed4-4701-44e4-b6a7-7ef152afdf45" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CorrectnessTests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HyperbolicTangent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Matrix.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OperatingTimeComparison.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Implementation/HyperbolicTangent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Implementation/HyperbolicTangent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Implementation/Matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/Implementation/Matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests_and_measurements/CorrectnessTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests_and_measurements/CorrectnessTests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests_and_measurements/OperatingTimeComparison.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests_and_measurements/OperatingTimeComparison.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +45,28 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.OperatingTimeComparison">
+  <component name="RunManager" selected="Python.OperatingTimeComparison (1)">
+    <configuration name="OperatingTimeComparison (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ImplementationOfTheHyperbolicTangentFunction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests_and_measurements" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests_and_measurements/OperatingTimeComparison.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="OperatingTimeComparison" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ImplementationOfTheHyperbolicTangentFunction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -58,27 +80,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OperatingTimeComparison.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestFile" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ImplementationOfTheHyperbolicTangentFunction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestFile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -131,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.OperatingTimeComparison (1)" />
         <item itemvalue="Python.OperatingTimeComparison" />
         <item itemvalue="Python tests.Python tests in CorrectnessTests.py" />
         <item itemvalue="Python tests.Python tests for CorrectnessTests.CorrectnessTests.test_hyperbolic_tangent_differential_calculates_values_correctly" />
         <item itemvalue="Python tests.Python tests for CorrectnessTests.CorrectnessTests" />
-        <item itemvalue="Python.TestFile" />
       </list>
     </recent_temporary>
   </component>
@@ -149,5 +150,16 @@
       <updated>1696697470372</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -1,13 +1,20 @@
 import numpy as np
-import HyperbolicTangent as ht
+import Implementation.HyperbolicTangent as ht
 import random
 import time
 
 
 class OperatingTimeComparison:
+    """
+    Class for measuring the speed of functions and comparing them
+    """
 
     @staticmethod
     def _make_launches(x, epsilon: float, launches_count: int):
+        """
+        Perform launches to calculate operating time of the functions
+        """
+
         start_time = time.time()
         for i in range(launches_count):
             ht.HyperbolicTangent.tanh(x, epsilon)
@@ -37,18 +44,27 @@ class OperatingTimeComparison:
 
     @staticmethod
     def time_measurements_for_number(launches_count: int):
+        """
+        Calculate operating time for number
+        """
         x = 0.65748
         epsilon = 10 ** -10
         return OperatingTimeComparison._make_launches(x, epsilon, launches_count)
 
     @staticmethod
     def time_measurements_for_matrix(launches_count: int):
+        """
+        Calculate operating time for matrix
+        """
         x = [[random.random() * 10 for _ in range(100)] for _ in range(100)]
         epsilon = 10 ** -10
         return OperatingTimeComparison._make_launches(x, epsilon, launches_count)
 
     @staticmethod
     def print_result_table():
+        """
+        Show all results
+        """
         results_for_number = OperatingTimeComparison.time_measurements_for_number(100)
         results_for_matrix = OperatingTimeComparison.time_measurements_for_matrix(100)
 
