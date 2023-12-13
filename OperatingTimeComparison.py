@@ -21,10 +21,10 @@ def _make_launches_for_function_and_data(func, x):
         launches_count = LAUNCHES_COUNT_FOR_MATRIX
         x_is_number = False
 
-    start_time = time.time()
+    start_time = time()
     for _ in range(launches_count):
         func(x)
-    end_time = time.time()
+    end_time = time()
 
     result = (end_time - start_time) * 1000
     # If 'x' is a number, then we calculate the TOTAL TIME for all runs,
