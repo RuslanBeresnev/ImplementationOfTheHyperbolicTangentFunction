@@ -1,106 +1,138 @@
+from random import random
+from time import time
 import numpy as np
+from prettytable import PrettyTable
+
 import HyperbolicTangent as ht
-import random
-import time
+import NumpyComplexFunctions as npcf
+
+LAUNCHES_COUNT_FOR_NUMBER = 1000
+LAUNCHES_COUNT_FOR_MATRIX = 10
 
 
-class OperatingTimeComparison:
+def _make_launches_for_function_and_data(func, x):
     """
-    Class for measuring the speed of functions and comparing them
+    Perform launches to calculate average operating time (in ms) of the function applied to data
     """
+    if not isinstance(x, list):
+        launches_count = LAUNCHES_COUNT_FOR_NUMBER
+        x_is_number = True
+    else:
+        launches_count = LAUNCHES_COUNT_FOR_MATRIX
+        x_is_number = False
 
-    @staticmethod
-    def _make_launches(x, epsilon: float, launches_count: int):
-        """
-        Perform launches to calculate operating time of the functions
-        """
+    start_time = time()
+    for _ in range(launches_count):
+        func(x)
+    end_time = time()
 
-        start_time = time.time()
-        for i in range(launches_count):
-            ht.HyperbolicTangent.tanh(x, epsilon)
-        end_time = time.time()
-        implemented_tanh_average_operating_time = (end_time - start_time) / launches_count
+    result = (end_time - start_time) * 1000
+    # If 'x' is a number, then we calculate the TOTAL TIME for all runs,
+    # since the execution time of one operation is too short
+    if not x_is_number:
+        result /= launches_count
+    return round(result, 2)
 
-        start_time = time.time()
-        for i in range(launches_count):
-            np.tanh(x)
-        end_time = time.time()
-        numpy_tanh_average_operating_time = (end_time - start_time) / launches_count
 
-        start_time = time.time()
-        for i in range(launches_count):
-            ht.HyperbolicTangent.tanh_diff(x, epsilon)
-        end_time = time.time()
-        implemented_tanh_diff_average_operating_time = (end_time - start_time) / launches_count
+def _time_measurements_for_number(number):
+    """
+    Calculate operating time of the tanh(), tanh_diff() functions and their NumPy implementations for the number
+    """
+    manual_tanh = _make_launches_for_function_and_data(ht.tanh_number, number)
+    manual_tanh_diff = _make_launches_for_function_and_data(ht.tanh_diff_number, number)
 
-        start_time = time.time()
-        for i in range(launches_count):
-            1 - np.tanh(x) ** 2
-        end_time = time.time()
-        numpy_tanh_diff_average_operating_time = (end_time - start_time) / launches_count
+    numpy_tanh = _make_launches_for_function_and_data(np.tanh, number)
+    numpy_tanh_diff = _make_launches_for_function_and_data(npcf.tanh_diff_number, number)
 
-        return [(implemented_tanh_average_operating_time, numpy_tanh_average_operating_time),
-                (implemented_tanh_diff_average_operating_time, numpy_tanh_diff_average_operating_time)]
+    difference_for_tanh = round(manual_tanh / numpy_tanh, 1)
+    difference_for_tanh_diff = round(manual_tanh_diff / numpy_tanh_diff, 1)
 
-    @staticmethod
-    def time_measurements_for_number(launches_count: int):
-        """
-        Calculate operating time for number
-        """
-        x = 0.65748
-        epsilon = 10 ** -10
-        return OperatingTimeComparison._make_launches(x, epsilon, launches_count)
+    results = {
+        'manual_tanh': manual_tanh,
+        'manual_tanh_diff': manual_tanh_diff,
+        'numpy_tanh': numpy_tanh,
+        'numpy_tanh_diff': numpy_tanh_diff,
+        'difference_for_tanh': difference_for_tanh,
+        'difference_for_tanh_diff': difference_for_tanh_diff
+    }
+    return results
 
-    @staticmethod
-    def time_measurements_for_matrix(launches_count: int):
-        """
-        Calculate operating time for matrix
-        """
-        x = [[random.random() * 10 for _ in range(100)] for _ in range(100)]
-        epsilon = 10 ** -10
-        return OperatingTimeComparison._make_launches(x, epsilon, launches_count)
 
-    @staticmethod
-    def print_result_table():
-        """
-        Show all results
-        """
-        results_for_number = OperatingTimeComparison.time_measurements_for_number(100)
-        results_for_matrix = OperatingTimeComparison.time_measurements_for_matrix(100)
+def _time_measurements_for_matrix(matrix):
+    """
+    Calculate operating time of the tanh(), tanh_diff(), f(), f_diff() functions and their NumPy implementations
+    for the 2D-matrix
+    """
+    manual_tanh = _make_launches_for_function_and_data(ht.tanh_matrix, matrix)
+    manual_tanh_diff = _make_launches_for_function_and_data(ht.tanh_diff_matrix, matrix)
+    manual_f = _make_launches_for_function_and_data(ht.f, matrix)
+    manual_f_diff = _make_launches_for_function_and_data(ht.f_diff, matrix)
 
-        print()
-        print()
+    numpy_tanh = _make_launches_for_function_and_data(np.tanh, matrix)
+    numpy_tanh_diff = _make_launches_for_function_and_data(npcf.tanh_diff_matrix, matrix)
+    numpy_f = _make_launches_for_function_and_data(npcf.f, matrix)
+    numpy_f_diff = _make_launches_for_function_and_data(npcf.f_diff, matrix)
 
-        print("Approximate results for number (in milliseconds):")
-        print("-" * 50)
-        print("\t\t\t tanh() \t tanh_differential()")
-        print(f"Manual: \t {round(results_for_number[0][0] * 1000, 2)} \t\t {round(results_for_number[1][0] * 1000, 2)}")
-        print(f"NumPy: \t\t {round(results_for_number[0][1] * 1000, 2)} \t\t {round(results_for_number[1][1] * 1000, 2)}")
-        print("-" * 50)
-        tanh_boost = round(results_for_number[0][0] / results_for_number[0][1], 1)
-        print(f"The tanh() function in the NumPy module approximately is {tanh_boost} times faster than the manual "
-              f"implementation")
-        tanh_diff_boost = round(results_for_number[1][0] / results_for_number[1][1], 1)
-        print(f"The tanh_differential() function in the NumPy module approximately is {tanh_diff_boost} times faster "
-              f"than the manual implementation")
+    difference_for_tanh = round(manual_tanh / numpy_tanh, 1)
+    difference_for_tanh_diff = round(manual_tanh_diff / numpy_tanh_diff, 1)
+    difference_for_f = round(manual_f / numpy_f, 1)
+    difference_for_f_diff = round(manual_f_diff / numpy_f_diff, 1)
 
-        print()
-        print()
-        print()
+    results = {
+        'manual_tanh': manual_tanh,
+        'manual_tanh_diff': manual_tanh_diff,
+        'manual_f': manual_f,
+        'manual_f_diff': manual_f_diff,
+        'numpy_tanh': numpy_tanh,
+        'numpy_tanh_diff': numpy_tanh_diff,
+        'numpy_f': numpy_f,
+        'numpy_f_diff': numpy_f_diff,
+        'difference_for_tanh': difference_for_tanh,
+        'difference_for_tanh_diff': difference_for_tanh_diff,
+        'difference_for_f': difference_for_f,
+        'difference_for_f_diff': difference_for_f_diff
+    }
+    return results
 
-        print("Approximate results for matrix (in milliseconds):")
-        print("-" * 50)
-        print("\t\t\t tanh() \t tanh_differential()")
-        print(f"Manual: \t {round(results_for_matrix[0][0] * 1000, 2)} \t\t {round(results_for_matrix[1][0] * 1000, 2)}")
-        print(f"NumPy: \t\t {round(results_for_matrix[0][1] * 1000, 2)} \t\t {round(results_for_matrix[1][1] * 1000, 2)}")
-        print("-" * 50)
-        tanh_boost = round(results_for_matrix[0][0] / results_for_matrix[0][1], 1)
-        print(f"The tanh() function in the NumPy module approximately is {tanh_boost} times faster than the manual "
-              f"implementation")
-        tanh_diff_boost = round(results_for_matrix[1][0] / results_for_matrix[1][1], 1)
-        print(f"The tanh_differential() function in the NumPy module approximately is {tanh_diff_boost} times faster "
-              f"than the manual implementation")
+
+def print_result_tables():
+    """
+    Show all results for operating time
+    """
+    number = 0.78397
+    n, m = 50, ht.w_m
+    matrix = [[random() * 6 - 3 for _ in range(m)] for _ in range(n)]
+
+    results_for_number = _time_measurements_for_number(number)
+    results_for_matrix = _time_measurements_for_matrix(matrix)
+
+    table_for_number = PrettyTable()
+    table_for_number.field_names = ['Implementation\\Function', 'tanh()', 'tanh_diff()']
+    table_for_number.add_row(['Manual', results_for_number['manual_tanh'], results_for_number['manual_tanh_diff']])
+    table_for_number.add_row(['NumPy', results_for_number['numpy_tanh'], results_for_number['numpy_tanh_diff']])
+    table_for_number.add_row(['NumPy is n times faster', results_for_number['difference_for_tanh'],
+                              results_for_number['difference_for_tanh_diff']])
+
+    table_for_matrix = PrettyTable()
+    table_for_matrix.field_names = ['Implementation\\Function', 'tanh()', 'tanh_diff()', 'f()', 'f_diff()']
+    table_for_matrix.add_row(['Manual', results_for_matrix['manual_tanh'], results_for_matrix['manual_tanh_diff'],
+                              results_for_matrix['manual_f'], results_for_matrix['manual_f_diff']])
+    table_for_matrix.add_row(['NumPy', results_for_matrix['numpy_tanh'], results_for_matrix['numpy_tanh_diff'],
+                              results_for_matrix['numpy_f'], results_for_matrix['numpy_f_diff']])
+    table_for_matrix.add_row(['NumPy is n times faster', results_for_matrix['difference_for_tanh'],
+                              results_for_matrix['difference_for_tanh_diff'], results_for_matrix['difference_for_f'],
+                              results_for_matrix['difference_for_f_diff']])
+
+    print(f'\nApproximate results of calculation performance (TOTAL TIME IN MILLISECONDS FOR '
+          f'{LAUNCHES_COUNT_FOR_NUMBER} LAUNCHES) for the number {number}, and comparison '
+          f'of the speed of implementation via NumPy and manual implementation: ')
+    print(table_for_number)
+
+    print(f'\nApproximate results of calculation performance (TIME IN MILLISECONDS FOR ONE LAUNCH) for the {n} by {m} '
+          f'matrix and comparison of the speed of implementation via NumPy and manual '
+          f'implementation: ')
+    print(table_for_matrix)
 
 
 if __name__ == '__main__':
-    OperatingTimeComparison.print_result_table()
+    print_result_tables()
