@@ -1,11 +1,11 @@
-import math
-import random
+from math import exp
+from random import random
 
 # This matrix W and vector b are given to us
 w_m = 100
 w_k = 1000
-w = [[(random.random() * 2 - 1) / 50 for _ in range(w_k)] for _ in range(w_m)]
-b = [(random.random() * 2 - 1) / 5 for _ in range(w_k)]
+w = [[(random() * 2 - 1) / 50 for _ in range(w_k)] for _ in range(w_m)]
+b = [(random() * 2 - 1) / 5 for _ in range(w_k)]
 # Transpose W for future calculations
 w_transposed = [[w[i][j] for i in range(w_m)] for j in range(w_k)]
 
@@ -27,7 +27,7 @@ def sigmoid_number(x):
         return 1
     elif x < -100:
         return 0
-    return 1 / (1 + math.exp(-x))
+    return 1 / (1 + exp(-x))
 
 
 def sigmoid_matrix(x):
