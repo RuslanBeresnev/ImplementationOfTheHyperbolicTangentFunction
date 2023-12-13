@@ -1,10 +1,11 @@
 import math
+import random
 
 # This matrix W and vector b are given to us
-w_m = 10
-w_k = 10
-w = [[(i + 1) * (j + 1) for j in range(w_k)] for i in range(w_m)]
-b = [i for i in range(w_k)]
+w_m = 100
+w_k = 1000
+w = [[(random.random() * 2 - 1) / 50 for _ in range(w_k)] for _ in range(w_m)]
+b = [(random.random() * 2 - 1) / 5 for _ in range(w_k)]
 # Transpose W for future calculations
 w_transposed = [[w[i][j] for i in range(w_m)] for j in range(w_k)]
 
@@ -22,6 +23,10 @@ def sigmoid_number(x):
     """
     Implementation of the sigmoid function by definition. Argument 'x' must be a single number
     """
+    if x > 100:
+        return 1
+    elif x < -100:
+        return 0
     return 1 / (1 + math.exp(-x))
 
 
@@ -65,6 +70,22 @@ def tanh_diff_matrix(x):
     return [[tanh_diff_number(x[i][j]) for j in range(m)] for i in range(n)]
 
 
+def tanh_diff_for_number_by_definition(x):
+    """
+    Find first differential for hyperbolic tangent by definition (via finite differences). 'x' should be a number
+    """
+    h = 10 ** -10
+    return (tanh_number(x + h) - tanh_number(x)) / h
+
+
+def tanh_diff_for_matrix_by_definition(x):
+    """
+    Find first differential for hyperbolic tangent by definition (via finite differences). 'x' should be a 2D-matrix.
+    """
+    n, m = shape(x)
+    return [[tanh_diff_for_number_by_definition(x[i][j]) for j in range(m)] for i in range(n)]
+
+
 def __scalar_product(fst, snd, i, j, count):
     """
     Calculate scalar product of i-th row in fst matrix and j-th row in snd matrix. The length of both rows
@@ -72,7 +93,7 @@ def __scalar_product(fst, snd, i, j, count):
     """
     result = 0
     for ind in range(count):
-        result += fst[i, ind] * snd[j, ind]
+        result += fst[i][ind] * snd[j][ind]
     return result
 
 
@@ -84,7 +105,7 @@ def f(x):
     n, m = shape(x)
     if m != w_m:
         raise ValueError("X and W matrix sizes are not suitable for multiplication!")
-    return [[tanh_number(__scalar_product(x, w_transposed, i, j, m) + b[w_k]) for j in range(w_k)] for i in range(n)]
+    return [[tanh_number(__scalar_product(x, w_transposed, i, j, m) + b[j]) for j in range(w_k)] for i in range(n)]
 
 
 def f_diff(x):
@@ -96,5 +117,5 @@ def f_diff(x):
     n, m = shape(x)
     if m != w_m:
         raise ValueError("X and W matrix sizes are not suitable for multiplication!")
-    return [[tanh_diff_number(__scalar_product(x, w_transposed, i, j, m) + b[w_k])
+    return [[tanh_diff_number(__scalar_product(x, w_transposed, i, j, m) + b[j])
              for j in range(w_k)] for i in range(n)]
