@@ -12,6 +12,7 @@
 | NumPy is n times faster |  0.4   | 0.4         |
 
 - Approximate results of calculation performance (TIME IN MILLISECONDS FOR ONE LAUNCH) for the 50 by 100 matrix and comparison of the speed of implementation via NumPy and manual implementation:
+- f(X) is special function of the form f(X) = (XW + b), where 'X' is arbitrary 2D-list (matrix) with sizes n by m; 'W' is specified 2D-list (matrix) with sizes m by k; and 'b' is list (k-dimensional vector)
 
 | Implementation\Function | tanh() | tanh_diff() |   f()   | f_diff() |
 | ----------------------- | ------ | ----------- | ------- |----------|
