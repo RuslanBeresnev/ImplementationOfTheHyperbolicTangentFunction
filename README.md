@@ -3,23 +3,18 @@
 - It was implemented as a test task for the project "Implementation of Triton kernels to accelerate the work of neural networks"
 
 # Results
-- Approximate results for the number 0.65748 (in milliseconds):
-----------------------------------------------------------------------
-| Realization\Function |        tanh()      |       tanh_diff()      |
-|:--------------------:|:------------------:|:----------------------:|
-|        Manual        |         0.36       |          0.37          |
-|        NUmPy         |         0.05       |          0.01          |
-----------------------------------------------------------------------
-The tanh() function in the NumPy module approximately is 7.2 times faster than the manual implementation
-The tanh_differential() function in the NumPy module approximately is 36.9 times faster than the manual implementation
+- Approximate results of calculation performance (TOTAL TIME IN MILLISECONDS FOR 1000 LAUNCHES) for the number 0.78397, and comparison of the speed of implementation via NumPy and manual implementation: 
 
+| Implementation\Function | tanh() | tanh_diff() |
+| ----------------------- | ------ |-------------|
+|          Manual         |  2.21  | 3.0         |
+|          NumPy          |  6.18  | 7.99        |
+| NumPy is n times faster |  0.4   | 0.4         |
 
-- Approximate results for the matrix 100 x 100 (in milliseconds):
-----------------------------------------------------------------------
-| Realization\Function |        tanh()      |       tanh_diff()      |
-|:--------------------:|:------------------:|:----------------------:|
-|        Manual        |         56.82      |          66.29         |
-|        NUmPy         |         1.96       |          2.07          |
-----------------------------------------------------------------------
-The tanh() function in the NumPy module approximately is 29.0 times faster than the manual implementation
-The tanh_differential() function in the NumPy module approximately is 32.0 times faster than the manual implementation
+- Approximate results of calculation performance (TIME IN MILLISECONDS FOR ONE LAUNCH) for the 50 by 100 matrix and comparison of the speed of implementation via NumPy and manual implementation:
+
+| Implementation\Function | tanh() | tanh_diff() |   f()   | f_diff() |
+| ----------------------- | ------ | ----------- | ------- |----------|
+|          Manual         |  9.11  |    15.95    | 1504.53 | 1364.45  |
+|          NumPy          |  0.9   |     2.7     |   18.3  | 37.89    |
+| NumPy is n times faster |  10.1  |     5.9     |   82.2  | 36.0     |
